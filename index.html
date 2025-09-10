@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f39a00">
+    <meta name="description" content="Sistema de dashboard Impettus">
+    <title>Dashboard Impettus</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: rgba(243, 154, 0, 255);
+            --primary-light: rgba(255, 177, 27, 255);
+            --primary-dark: rgba(194, 123, 0, 255);
+            --secondary: #6a79f6;
+            --accent: #ff6b6b;
+            --dark: #1d2b3a;
+            --light: #f5f8ff;
+            --gray: #718096;
+            --success: #28a745;
+            --text-on-primary: #fff;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 90vh;
+        }
+        
+        header {
+            background: var(--dark);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            font-size: 24px;
+            color: var(--primary);
+        }
+        
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .btn {
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: var(--text-on-primary);
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+        
+        .btn-logout {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .btn-logout:hover {
+            background: #ff5252;
+        }
+        
+        .btn-admin {
+            background: var(--dark);
+            color: white;
+        }
+        
+        .btn-install {
+            background: var(--success);
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .main-content {
+            display: flex;
+            flex: 1;
+        }
+        
+        .auth-container {
+            width: 400px;
+            padding: 40px;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .welcome-section {
+            flex: 1;
+            background: linear-gradient(rgba(243, 154, 0, 0.9), rgba(255, 177, 27, 0.9)), url('https://images.unsplash.com/photo-1533750349088-cd871a92f312?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80') no-repeat center center;
+            background-size: cover;
+            color: white;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .welcome-content {
+            max-width: 500px;
+        }
+        
+        .welcome-content h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        
+        .welcome-content p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .features {
+            list-style-type: none;
+        }
+        
+        .features li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .features i {
+            color: var(--dark);
+            font-size: 20px;
+        }
+        
+        .form-container {
+            width: 100%;
+        }
+        
+        .form-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        .input-group input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        .dashboard-container {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .dashboard-header {
+            padding: 15px 20px;
+            background: var(--light);
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .dashboard-header h2 {
+            color: var(--dark);
+            font-size: 20px;
+        }
+        
+        .dashboard-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .powerbi-container {
+            flex: 1;
+            padding: 0;
+            overflow: hidden;
+            height: calc(100vh - 120px);
+        }
+        
+        .powerbi-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .admin-container {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+            padding: 20px;
+        }
+        
+        .admin-header {
+            padding: 15px 0;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .admin-header h2 {
+            color: var(--dark);
+            font-size: 24px;
+        }
+        
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .user-table th, .user-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .user-table th {
+            background-color: var(--light);
+            font-weight: 600;
+        }
+        
+        .user-table tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .action-btn {
+            padding: 6px 12px;
+            margin-right: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .btn-edit {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-delete {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .user-form {
+            background-color: var(--light);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .user-form h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            flex: 1;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-group select, .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        @media (max-width: 900px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .auth-container {
+                width: 100%;
+                padding: 30px;
+            }
+            
+            .welcome-section {
+                display: none;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .nav-user {
+                width: 100%;
+                justify-content: space-between;
+                margin-top: 10px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .dashboard-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .dashboard-actions .btn {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+            
+            .nav-user {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .user-info {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <div class="logo">
+                    <i class="fas fa-chart-line"></i>
+                    <h1>Dashboard Impettus</h1>
+                </div>
+                <button class="btn btn-install" id="install-btn">
+                    <i class="fas fa-download"></i> Instalar App
+                </button>
+            </div>
+            <div class="nav-user">
+                <div class="user-info" id="user-info">
+                    <div class="user-avatar" id="user-avatar">AD</div>
+                    <span id="user-name">Admin</span>
+                </div>
+                <button class="btn btn-logout" id="logout-btn">Sair</button>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="auth-container" id="auth-container">
+                <div class="form-container">
+                    <form id="login-form" class="form active">
+                        <h2 class="form-title">Acesse sua conta</h2>
+                        
+                        <div class="input-group">
+                            <label for="login-email">E-mail</label>
+                            <input type="email" id="login-email" placeholder="Seu e-mail" required>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="login-password">Senha</label>
+                            <input type="password" id="login-password" placeholder="Sua senha" required>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Entrar</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="welcome-section">
+                <div class="welcome-content">
+                    <h2>Analytics em tempo real</h2>
+                    <p>Acesse dados estratégicos e insights valiosos para impulsionar seus negócios.</p>
+                    
+                    <ul class="features">
+                        <li><i class="fas fa-check-circle"></i> Dashboard interativo e personalizável</li>
+                        <li><i class="fas fa-check-circle"></i> Relatórios em tempo real</li>
+                        <li><i class="fas fa-check-circle"></i> Visualizações de dados intuitivas</li>
+                        <li><i class="fas fa-check-circle"></i> Compartilhamento seguro de dados</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="dashboard-container" id="dashboard-container">
+                <div class="dashboard-header">
+                    <h2>Dashboard de Performance</h2>
+                    <div class="dashboard-actions">
+                        <button class="btn btn-admin" id="admin-btn">Gerenciar Usuários</button>
+                        <button class="btn btn-primary" id="fullscreen-btn">Tela Cheia</button>
+                    </div>
+                </div>
+                <div class="powerbi-container">
+                    <iframe class="powerbi-iframe" src="about:blank" frameborder="0" allowFullScreen="true" id="powerbi-iframe"></iframe>
+                </div>
+            </div>
+            
+            <div class="admin-container" id="admin-container">
+                <div class="admin-header">
+                    <h2>Gerenciamento de Usuários</h2>
+                </div>
+                
+                <table class="user-table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>E-mail</th>
+                            <th>Perfil</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-table-body">
+                        <!-- Users will be populated here -->
+                    </tbody>
+                </table>
+                
+                <div class="user-form">
+                    <h3>Adicionar/Editar Usuário</h3>
+                    <form id="user-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="user-name">Nome Completo</label>
+                                <input type="text" id="user-name-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="user-email">E-mail</label>
+                                <input type="email" id="user-email-input" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="user-password">Senha</label>
+                                <input type="password" id="user-password-input">
+                            </div>
+                            <div class="form-group">
+                                <label for="user-role">Perfil</label>
+                                <select id="user-role-input" required>
+                                    <option value="viewer">Visualizador</option>
+                                    <option value="admin">Administrador</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Salvar Usuário</button>
+                        <button type="button" class="btn" id="cancel-edit-btn" style="display: none;">Cancelar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Elementos da DOM
+        const loginForm = document.getElementById('login-form');
+        const authContainer = document.getElementById('auth-container');
+        const dashboardContainer = document.getElementById('dashboard-container');
+        const adminContainer = document.getElementById('admin-container');
+        const adminBtn = document.getElementById('admin-btn');
+        const userAvatar = document.getElementById('user-avatar');
+        const userName = document.getElementById('user-name');
+        const logoutBtn = document.getElementById('logout-btn');
+        const fullscreenBtn = document.getElementById('fullscreen-btn');
+        const powerbiIframe = document.getElementById('powerbi-iframe');
+        const installBtn = document.getElementById('install-btn');
+        const userTableBody = document.getElementById('user-table-body');
+        const userForm = document.getElementById('user-form');
+        const cancelEditBtn = document.getElementById('cancel-edit-btn');
+        
+        // URL do Power BI
+        const powerbiUrl = "https://app.powerbi.com/view?r=eyJrIjoiNWM3YTA0MzYtMzhjNS00ZTM3LWI1ZmUtMGZhMDZmZDI2OGQ5IiwidCI6IjU3ZWNhMGE5LWUwYzgtNGJhZC04YTE4LTZlN2Y2NDc5MWRjNCJ9";
+        
+        // Variáveis de estado
+        let currentUser = null;
+        let editingUserId = null;
+        
+        // Inicialização
+        initializeApp();
+        
+        function initializeApp() {
+            // Inicializar banco de dados de usuários se não existir
+            if (!localStorage.getItem('users')) {
+                const defaultUsers = [
+                    { id: '1', name: 'Administrador', email: 'admin@impettus.com', password: 'admin123', role: 'admin' },
+                    { id: '2', name: 'Usuário Visualizador', email: 'viewer@impettus.com', password: 'viewer123', role: 'viewer' }
+                ];
+                localStorage.setItem('users', JSON.stringify(defaultUsers));
+            }
+            
+            // Verificar se já está logado
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                loginSuccess(currentUser);
+            }
+            
+            // Carregar lista de usuários
+            loadUsers();
+            
+            // Configurar service worker para PWA
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('sw.js')
+                        .then((registration) => {
+                            console.log('SW registered: ', registration);
+                        })
+                        .catch((registrationError) => {
+                            console.log('SW registration failed: ', registrationError);
+                        });
+                });
+            }
+            
+            // Configurar botão de instalação
+            let deferredPrompt;
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                installBtn.style.display = 'flex';
+            });
+            
+            installBtn.addEventListener('click', async () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    if (outcome === 'accepted') {
+                        installBtn.style.display = 'none';
+                    }
+                    deferredPrompt = null;
+                }
+            });
+        }
+        
+        // Processar formulário de login
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            const users = JSON.parse(localStorage.getItem('users'));
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                loginSuccess(user);
+            } else {
+                alert('E-mail ou senha incorretos!');
+            }
+        });
+        
+        // Logout
+        logoutBtn.addEventListener('click', () => {
+            authContainer.style.display = 'block';
+            dashboardContainer.style.display = 'none';
+            adminContainer.style.display = 'none';
+            
+            // Limpar sessão
+            localStorage.removeItem('currentUser');
+            currentUser = null;
+            
+            // Limpar formulário
+            loginForm.reset();
+        });
+        
+        // Entrar no modo admin
+        adminBtn.addEventListener('click', () => {
+            dashboardContainer.style.display = 'none';
+            adminContainer.style.display = 'flex';
+        });
+        
+        // Processar formulário de usuário
+        userForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('user-name-input').value;
+            const email = document.getElementById('user-email-input').value;
+            const password = document.getElementById('user-password-input').value;
+            const role = document.getElementById('user-role-input').value;
+            
+            const users = JSON.parse(localStorage.getItem('users'));
+            
+            if (editingUserId) {
+                // Editar usuário existente
+                const userIndex = users.findIndex(u => u.id === editingUserId);
+                if (userIndex !== -1) {
+                    users[userIndex].name = name;
+                    users[userIndex].email = email;
+                    users[userIndex].role = role;
+                    if (password) {
+                        users[userIndex].password = password;
+                    }
+                }
+            } else {
+                // Adicionar novo usuário
+                const newUser = {
+                    id: Date.now().toString(),
+                    name,
+                    email,
+                    password: password || 'temp123', // Senha padrão se não for fornecida
+                    role
+                };
+                users.push(newUser);
+            }
+            
+            localStorage.setItem('users', JSON.stringify(users));
+            loadUsers();
+            resetUserForm();
+            
+            alert(editingUserId ? 'Usuário atualizado com sucesso!' : 'Usuário adicionado com sucesso!');
+            editingUserId = null;
+        });
+        
+        // Cancelar edição
+        cancelEditBtn.addEventListener('click', resetUserForm);
+        
+        // Função para carregar usuários na tabela
+        function loadUsers() {
+            const users = JSON.parse(localStorage.getItem('users'));
+            userTableBody.innerHTML = '';
+            
+            users.forEach(user => {
+                const tr = document.createElement('tr');
+                
+                tr.innerHTML = `
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.role === 'admin' ? 'Administrador' : 'Visualizador'}</td>
+                    <td>
+                        <button class="action-btn btn-edit" data-id="${user.id}">Editar</button>
+                        <button class="action-btn btn-delete" data-id="${user.id}">Excluir</button>
+                    </td>
+                `;
+                
+                userTableBody.appendChild(tr);
+            });
+            
+            // Adicionar event listeners para os botões
+            document.querySelectorAll('.btn-edit').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const userId = e.target.getAttribute('data-id');
+                    editUser(userId);
+                });
+            });
+            
+            document.querySelectorAll('.btn-delete').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const userId = e.target.getAttribute('data-id');
+                    deleteUser(userId);
+                });
+            });
+        }
+        
+        // Função para editar usuário
+        function editUser(userId) {
+            const users = JSON.parse(localStorage.getItem('users'));
+            const user = users.find(u => u.id === userId);
+            
+            if (user) {
+                document.getElementById('user-name-input').value = user.name;
+                document.getElementById('user-email-input').value = user.email;
+                document.getElementById('user-role-input').value = user.role;
+                document.getElementById('user-password-input').value = '';
+                
+                editingUserId = userId;
+                cancelEditBtn.style.display = 'inline-block';
+            }
+        }
+        
+        // Função para excluir usuário
+        function deleteUser(userId) {
+            if (confirm('Tem certeza que deseja excluir este usuário?')) {
+                const users = JSON.parse(localStorage.getItem('users'));
+                const updatedUsers = users.filter(u => u.id !== userId);
+                
+                localStorage.setItem('users', JSON.stringify(updatedUsers));
+                loadUsers();
+                
+                alert('Usuário excluído com sucesso!');
+            }
+        }
+        
+        // Função para resetar o formulário de usuário
+        function resetUserForm() {
+            userForm.reset();
+            editingUserId = null;
+            cancelEditBtn.style.display = 'none';
+        }
+        
+        // Função para processar login bem-sucedido
+        function loginSuccess(user) {
+            authContainer.style.display = 'none';
+            dashboardContainer.style.display = 'flex';
+            
+            // Atualizar informações do usuário
+            userName.textContent = user.name;
+            userAvatar.textContent = user.name.charAt(0) + (user.name.split(' ')[1] ? user.name.split(' ')[1].charAt(0) : user.name.charAt(1));
+            
+            // Mostrar botão de admin apenas para administradores
+            adminBtn.style.display = user.role === 'admin' ? 'inline-block' : 'none';
+            
+            // Carregar o iframe do Power BI
+            powerbiIframe.src = powerbiUrl;
+            
+            // Salvar sessão
+            currentUser = user;
+            localStorage.setItem('currentUser', JSON.stringify(user));
+        }
+    </script>
+</body>
+</html>
