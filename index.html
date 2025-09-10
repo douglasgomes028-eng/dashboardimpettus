@@ -41,7 +41,7 @@
         
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1000px;
             background: white;
             border-radius: 15px;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
@@ -143,6 +143,16 @@
             color: white;
         }
         
+        .btn-back {
+            background: var(--gray);
+            color: white;
+            margin-right: 10px;
+        }
+        
+        .btn-back:hover {
+            background: #5a6268;
+        }
+        
         .btn-install {
             background: var(--success);
             color: white;
@@ -151,60 +161,30 @@
             gap: 5px;
         }
         
+        .btn-reload {
+            background: var(--primary);
+            color: white;
+            margin-left: 10px;
+        }
+        
         .main-content {
             display: flex;
             flex: 1;
         }
         
         .auth-container {
-            width: 400px;
+            width: 100%;
             padding: 40px;
             background: white;
             display: flex;
             flex-direction: column;
             justify-content: center;
-        }
-        
-        .welcome-section {
-            flex: 1;
-            background: linear-gradient(rgba(243, 154, 0, 0.9), rgba(255, 177, 27, 0.9)), url('https://images.unsplash.com/photo-1533750349088-cd871a92f312?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80') no-repeat center center;
-            background-size: cover;
-            color: white;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        
-        .welcome-content {
-            max-width: 500px;
-        }
-        
-        .welcome-content h2 {
-            font-size: 32px;
-            margin-bottom: 20px;
-        }
-        
-        .welcome-content p {
-            font-size: 18px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-        
-        .features {
-            list-style-type: none;
-        }
-        
-        .features li {
-            margin-bottom: 15px;
-            display: flex;
             align-items: center;
-            gap: 10px;
         }
         
-        .features i {
-            color: var(--dark);
-            font-size: 20px;
+        .auth-content {
+            width: 100%;
+            max-width: 400px;
         }
         
         .form-container {
@@ -215,6 +195,7 @@
             font-size: 24px;
             margin-bottom: 20px;
             color: var(--dark);
+            text-align: center;
         }
         
         .input-group {
@@ -277,12 +258,66 @@
             padding: 0;
             overflow: hidden;
             height: calc(100vh - 120px);
+            position: relative;
         }
         
         .powerbi-iframe {
             width: 100%;
             height: 100%;
             border: none;
+        }
+        
+        .powerbi-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: white;
+            z-index: 10;
+        }
+        
+        .spinner {
+            border: 5px solid var(--light);
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .fullscreen-iframe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            border: none;
+        }
+        
+        .fullscreen-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--dark);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10000;
         }
         
         .admin-container {
@@ -296,11 +331,19 @@
             padding: 15px 0;
             border-bottom: 1px solid #ddd;
             margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
         .admin-header h2 {
             color: var(--dark);
             font-size: 24px;
+        }
+        
+        .admin-actions {
+            display: flex;
+            gap: 10px;
         }
         
         .user-table {
@@ -377,18 +420,48 @@
             border-radius: 4px;
         }
         
+        .features {
+            list-style-type: none;
+            margin: 30px 0;
+            padding: 0;
+        }
+        
+        .features li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .features i {
+            color: var(--primary);
+            font-size: 20px;
+        }
+        
+        .welcome-text {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .welcome-text h2 {
+            font-size: 28px;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+        
+        .welcome-text p {
+            font-size: 18px;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+        
         @media (max-width: 900px) {
             .main-content {
                 flex-direction: column;
             }
             
             .auth-container {
-                width: 100%;
                 padding: 30px;
-            }
-            
-            .welcome-section {
-                display: none;
             }
             
             .form-row {
@@ -429,6 +502,16 @@
                 width: 100%;
                 justify-content: flex-end;
             }
+            
+            .admin-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .admin-actions .btn {
+                width: 100%;
+                margin-bottom: 5px;
+            }
         }
     </style>
 </head>
@@ -455,36 +538,32 @@
         
         <div class="main-content">
             <div class="auth-container" id="auth-container">
-                <div class="form-container">
-                    <form id="login-form" class="form active">
-                        <h2 class="form-title">Acesse sua conta</h2>
+                <div class="auth-content">
+                    <div class="welcome-text">
                         
-                        <div class="input-group">
-                            <label for="login-email">E-mail</label>
-                            <input type="email" id="login-email" placeholder="Seu e-mail" required>
-                        </div>
-                        
-                        <div class="input-group">
-                            <label for="login-password">Senha</label>
-                            <input type="password" id="login-password" placeholder="Sua senha" required>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary" style="width: 100%;">Entrar</button>
-                    </form>
-                </div>
-            </div>
-            
-            <div class="welcome-section">
-                <div class="welcome-content">
-                    <h2>Analytics em tempo real</h2>
-                    <p>Acesse dados estratégicos e insights valiosos para impulsionar seus negócios.</p>
+                    </div>
                     
                     <ul class="features">
-                        <li><i class="fas fa-check-circle"></i> Dashboard interativo e personalizável</li>
-                        <li><i class="fas fa-check-circle"></i> Relatórios em tempo real</li>
-                        <li><i class="fas fa-check-circle"></i> Visualizações de dados intuitivas</li>
-                        <li><i class="fas fa-check-circle"></i> Compartilhamento seguro de dados</li>
+                        
                     </ul>
+                    
+                    <div class="form-container">
+                        <form id="login-form" class="form active">
+                            <h2 class="form-title">Acesse sua conta</h2>
+                            
+                            <div class="input-group">
+                                <label for="login-email">E-mail</label>
+                                <input type="email" id="login-email" placeholder="Seu e-mail" required>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="login-password">Senha</label>
+                                <input type="password" id="login-password" placeholder="Sua senha" required>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">Entrar</button>
+                        </form>
+                    </div>
                 </div>
             </div>
             
@@ -494,9 +573,14 @@
                     <div class="dashboard-actions">
                         <button class="btn btn-admin" id="admin-btn">Gerenciar Usuários</button>
                         <button class="btn btn-primary" id="fullscreen-btn">Tela Cheia</button>
+                        <button class="btn btn-reload" id="reload-btn">Recarregar</button>
                     </div>
                 </div>
                 <div class="powerbi-container">
+                    <div class="powerbi-loading" id="powerbi-loading">
+                        <div class="spinner"></div>
+                        <p>Carregando dashboard...</p>
+                    </div>
                     <iframe class="powerbi-iframe" src="about:blank" frameborder="0" allowFullScreen="true" id="powerbi-iframe"></iframe>
                 </div>
             </div>
@@ -504,6 +588,9 @@
             <div class="admin-container" id="admin-container">
                 <div class="admin-header">
                     <h2>Gerenciamento de Usuários</h2>
+                    <div class="admin-actions">
+                        <button class="btn btn-back" id="back-btn">Voltar</button>
+                    </div>
                 </div>
                 
                 <table class="user-table">
@@ -563,22 +650,27 @@
         const dashboardContainer = document.getElementById('dashboard-container');
         const adminContainer = document.getElementById('admin-container');
         const adminBtn = document.getElementById('admin-btn');
+        const backBtn = document.getElementById('back-btn');
+        const reloadBtn = document.getElementById('reload-btn');
         const userAvatar = document.getElementById('user-avatar');
         const userName = document.getElementById('user-name');
         const logoutBtn = document.getElementById('logout-btn');
         const fullscreenBtn = document.getElementById('fullscreen-btn');
         const powerbiIframe = document.getElementById('powerbi-iframe');
+        const powerbiLoading = document.getElementById('powerbi-loading');
         const installBtn = document.getElementById('install-btn');
         const userTableBody = document.getElementById('user-table-body');
         const userForm = document.getElementById('user-form');
         const cancelEditBtn = document.getElementById('cancel-edit-btn');
         
-        // URL do Power BI
+        // URL do Power BI - corrigida
         const powerbiUrl = "https://app.powerbi.com/view?r=eyJrIjoiNWM3YTA0MzYtMzhjNS00ZTM3LWI1ZmUtMGZhMDZmZDI2OGQ5IiwidCI6IjU3ZWNhMGE5LWUwYzgtNGJhZC04YTE4LTZlN2Y2NDc5MWRjNCJ9";
         
         // Variáveis de estado
         let currentUser = null;
         let editingUserId = null;
+        let deferredPrompt = null;
+        let isFullscreen = false;
         
         // Inicialização
         initializeApp();
@@ -617,23 +709,41 @@
             }
             
             // Configurar botão de instalação
-            let deferredPrompt;
             window.addEventListener('beforeinstallprompt', (e) => {
                 e.preventDefault();
                 deferredPrompt = e;
                 installBtn.style.display = 'flex';
+                
+                installBtn.addEventListener('click', async () => {
+                    if (deferredPrompt) {
+                        deferredPrompt.prompt();
+                        const { outcome } = await deferredPrompt.userChoice;
+                        if (outcome === 'accepted') {
+                            console.log('User accepted the install prompt');
+                        } else {
+                            console.log('User dismissed the install prompt');
+                        }
+                        deferredPrompt = null;
+                    }
+                });
             });
             
-            installBtn.addEventListener('click', async () => {
-                if (deferredPrompt) {
-                    deferredPrompt.prompt();
-                    const { outcome } = await deferredPrompt.userChoice;
-                    if (outcome === 'accepted') {
-                        installBtn.style.display = 'none';
-                    }
-                    deferredPrompt = null;
-                }
-            });
+            // Para iOS
+            const isIos = () => {
+                const userAgent = window.navigator.userAgent.toLowerCase();
+                return /iphone|ipad|ipod/.test(userAgent);
+            };
+            
+            const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
+            
+            if (isIos() && !isInStandaloneMode()) {
+                installBtn.style.display = 'flex';
+                installBtn.innerHTML = '<i class="fas fa-plus-square"></i> Adicionar à Tela Inicial';
+                
+                installBtn.addEventListener('click', () => {
+                    alert('Para instalar o app, toque no botão "Compartilhar" e depois em "Adicionar à Tela Inicial".');
+                });
+            }
         }
         
         // Processar formulário de login
@@ -671,6 +781,79 @@
             dashboardContainer.style.display = 'none';
             adminContainer.style.display = 'flex';
         });
+        
+        // Voltar para o dashboard
+        backBtn.addEventListener('click', () => {
+            adminContainer.style.display = 'none';
+            dashboardContainer.style.display = 'flex';
+            resetUserForm();
+        });
+        
+        // Recarregar o dashboard
+        reloadBtn.addEventListener('click', () => {
+            loadPowerBiDashboard();
+        });
+        
+        // Modo tela cheia
+        fullscreenBtn.addEventListener('click', () => {
+            if (!isFullscreen) {
+                enterFullscreen();
+            } else {
+                exitFullscreen();
+            }
+        });
+        
+        function enterFullscreen() {
+            const iframe = document.getElementById('powerbi-iframe');
+            iframe.classList.add('fullscreen-iframe');
+            
+            // Criar header para tela cheia
+            const fullscreenHeader = document.createElement('div');
+            fullscreenHeader.className = 'fullscreen-header';
+            fullscreenHeader.innerHTML = `
+                <div class="logo">
+                    <i class="fas fa-chart-line"></i>
+                    <h1>Dashboard Impettus - Modo Tela Cheia</h1>
+                </div>
+                <button class="btn btn-logout" id="exit-fullscreen-btn">Sair da Tela Cheia</button>
+            `;
+            document.body.appendChild(fullscreenHeader);
+            
+            document.getElementById('exit-fullscreen-btn').addEventListener('click', exitFullscreen);
+            
+            isFullscreen = true;
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function exitFullscreen() {
+            const iframe = document.getElementById('powerbi-iframe');
+            iframe.classList.remove('fullscreen-iframe');
+            
+            const fullscreenHeader = document.querySelector('.fullscreen-header');
+            if (fullscreenHeader) {
+                fullscreenHeader.remove();
+            }
+            
+            isFullscreen = false;
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Carregar dashboard do Power BI
+        function loadPowerBiDashboard() {
+            powerbiLoading.style.display = 'flex';
+            powerbiIframe.src = powerbiUrl;
+            
+            // Esconder o loading após o iframe carregar
+            powerbiIframe.onload = function() {
+                powerbiLoading.style.display = 'none';
+            };
+            
+            // Tratar erros de carregamento
+            powerbiIframe.onerror = function() {
+                powerbiLoading.style.display = 'none';
+                alert('Erro ao carregar o dashboard. Verifique sua conexão e tente novamente.');
+            };
+        }
         
         // Processar formulário de usuário
         userForm.addEventListener('submit', (e) => {
@@ -802,7 +985,7 @@
             adminBtn.style.display = user.role === 'admin' ? 'inline-block' : 'none';
             
             // Carregar o iframe do Power BI
-            powerbiIframe.src = powerbiUrl;
+            loadPowerBiDashboard();
             
             // Salvar sessão
             currentUser = user;
